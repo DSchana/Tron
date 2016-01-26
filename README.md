@@ -1,2 +1,2 @@
-# Pac-Man
+# Tron
 Small Game Project
