@@ -16,7 +16,7 @@ public class Tron extends JFrame implements ActionListener {
 		game = new GamePanel(this);
 		add(game);
 
-		gameTimer = new Timer(20, this);
+		gameTimer = new Timer(30, this);
 
 		setResizable(false);
 		setVisible(true);

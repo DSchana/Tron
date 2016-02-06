@@ -6,13 +6,18 @@ import javax.swing.*;
 import java.util.*;
 
 class GamePanel extends JPanel implements KeyListener{
-	private boolean []keys;
+	private boolean[] keys;
 	private boolean isNewGame;
 	private Image back;
 	private Tron mainFrame;
-	Player p1, p2;
+	private int[][] board;
+	private Player p1, p2;
 	
-	public GamePanel(Tron m){
+	public GamePanel(Tron m) {
+		board = new int[103][80];
+		for (int i = 0; i < 103; i++) {
+			Arrays.fill(board[i], 0);
+		}
 		keys = new boolean[KeyEvent.KEY_LAST+1];
 		back = new ImageIcon("../Resources/Board.png").getImage();
 		p1 = new Player(1, 470, 265, new Color(255, 102, 255));
@@ -29,7 +34,7 @@ class GamePanel extends JPanel implements KeyListener{
         mainFrame.start();
     }
 	
-	public void move(){
+	public void move() {
 		// Player 1
 		if(keys[KeyEvent.VK_RIGHT] && p1.getDirection() != Direction.LEFT){
 			p1.changeDirection(Direction.RIGHT);
@@ -63,20 +68,23 @@ class GamePanel extends JPanel implements KeyListener{
 
 		checkCollision();
 		
-		// Point mouse = MouseInfo.getPointerInfo().getLocation();
-		// Point offset = getLocationOnScreen();
-		// System.out.println("("+(mouse.x-offset.x)+", "+(mouse.y-offset.y)+")");
+		Point mouse = MouseInfo.getPointerInfo().getLocation();
+		Point offset = getLocationOnScreen();
+		System.out.println("("+(mouse.x-offset.x)+", "+(mouse.y-offset.y)+")");
 	}
 
 	public void checkCollision() {
-		if (p1.isColliding() && p2.isColliding()) {
+		if (p1.isColliding(board) && p2.isColliding(board)) {
 			System.out.println("Tie");
+			newGame();
 		}
-		else if (p1.isColliding()) {
+		else if (p1.isColliding(board)) {
 			System.out.println("Player 1 wins!");
+			newGame();
 		}
-		else if (p2.isColliding()) {
+		else if (p2.isColliding(board)) {
 			System.out.println("Player 2 wins!");
+			newGame();
 		}
 	}
 	
@@ -95,9 +103,18 @@ class GamePanel extends JPanel implements KeyListener{
     		g.drawImage(back,0,0,this);
     		isNewGame = false;
     	}
-    	p1.leaveTrail(g);
-    	p2.leaveTrail(g);
     	p1.render(g);
     	p2.render(g);
+    	p1.leaveTrail(g, board);
+    	p2.leaveTrail(g, board);
+    }
+
+    public void newGame() {
+    	for (int i = 0; i < 103; i++) {
+			Arrays.fill(board[i], 0);
+		}
+		isNewGame = true;
+		p1.reset();
+		p2.reset();
     }
 }
