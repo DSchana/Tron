@@ -8,11 +8,14 @@ public class Player extends JFrame {
 	int p_num;
 	int x, y, init_x, init_y;
 	int speed;
+	int boostCount, boostTime;
+	int score;
 	Color colour;
 	Color enemyColour;
 	Direction direction, init_direction;
 	Image img;
 	boolean newDirectionMoved;  // Is set to false if the player changes direction but has not moved in that direction yet
+	boolean boosting;
 
 	public Player(int p_num, int x, int y, Color colour) {
 		this.speed = 5;
@@ -22,6 +25,9 @@ public class Player extends JFrame {
 		this.init_x = x;
 		this.init_y = y;
 		this.colour = colour;
+		this.boosting = false;
+		this.boostCount = 3;
+		this.boostTime = 0;
 		if (p_num == 1) {
 			this.direction = Direction.LEFT;
 			this.init_direction = Direction.LEFT;
@@ -37,6 +43,19 @@ public class Player extends JFrame {
 	}
 
 	public void move() {
+		if (this.boosting) {
+			this.speed = 10;
+			this.boostTime++;
+		}
+		else {
+			this.speed = 5;
+		}
+
+		if (this.boostTime == 10) {
+			this.boosting = false;
+			this.boostTime = 0;
+		}
+
 		if (this.direction == Direction.UP) {
 			this.y -= this.speed;
 		}
@@ -82,6 +101,10 @@ public class Player extends JFrame {
 		this.direction = this.init_direction;
 		this.x = this.init_x;
 		this.y = this.init_y;
+		this.score = 0;
+		this.boostCount = 3;
+		this.boosting = false;
+		this.boostTime = 0;
 	}
 
 	public boolean isColliding(int[][] board) {
@@ -113,9 +136,28 @@ public class Player extends JFrame {
 		return this.y;
 	}
 
+	public int getScore() {
+		return this.score;
+	}
+
+	public boolean isBoosting() {
+		return this.boosting;
+	}
+
 	// Set methods
 	public void changeDirection(Direction newDirect) {
 		this.direction = newDirect;
 		this.newDirectionMoved = false;
+	}
+
+	public void setScore(int score) {
+		this.score = score;
+	}
+
+	public void boost() {
+		if (boostCount > 0) {
+			this.boosting = true;
+			this.boostCount--;
+		}
 	}
 }

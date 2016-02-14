@@ -4,18 +4,20 @@ import java.util.*;
 import java.awt.*;
 import javax.swing.*;
 
-public class Button {
-	private int x, y;
+public class Button extends JFrame {
+	private int x, y, width, height;
 	private boolean isHighlighted;
 	private Image img, imgHighlighted;
-	private Action action
+	private String action;
 
-	public Button(int x, int y, String imDir, Action action) {
+	public Button(String imDir, String action, int x, int y, int width, int height) {
 		this.x = x;
 		this.y = y;
+		this.width = width;
+		this.height = height;
 		this.isHighlighted = false;
 		this.img = new ImageIcon(imDir + ".png").getImage();
-		this.imgHighlighted = new ImageIcon(imDir + "high.png");
+		this.imgHighlighted = new ImageIcon(imDir + " high.png").getImage();
 		this.action = action;
 	}
 
@@ -29,20 +31,20 @@ public class Button {
 	}
 
 	public void trigger() {
-		Action.trigger(this.action);
+		if (action.equals("start")) {
+			ScreenManager.activate("game");
+		}
+		else if (action.equals("instruct")) {
+			ScreenManager.activate("instruction");
+		}
+		else if (action.equals("back")) {
+			ScreenManager.activate(ScreenManager.getPrevious());
+		}
 	}
 
 	// Get methods
 	public boolean getHighlight() {
 		return this.isHighlighted;
-	}
-
-	public boolean isCollide(Point mPoint) {
-		// TODO: Check if image has width and height properties
-		if (mPoint.x > this.x && mPoint.x < this.img.width && mPoint.y > this.y && mPoint.y < this.img.height) {
-			return true;
-		}
-		return false;
 	}
 
 	// Set methods

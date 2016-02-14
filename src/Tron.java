@@ -28,7 +28,7 @@ public class Tron extends JFrame implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent evt) {
-		game.move();
+		game.update();
 		game.repaint();
 	}
 
