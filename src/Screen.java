@@ -1,4 +1,6 @@
 // Menu.java
+// Dilpreet Chana
+// Class Screen - Model of a screen with with buttons and background
 
 import java.util.*;
 import java.awt.*;
@@ -28,14 +30,15 @@ public class Screen extends JPanel implements KeyListener {
 
 	}
 
-	public void update(boolean[] nKeys) {
+	public void update(boolean[] nKeys, Player p1, Player p2) {
 		keys = nKeys;
 
-		// Put this in a friggin key manager
+		// Allow for a single event to take place upon key down
 		if (!keys[KeyEvent.VK_DOWN] && !keys[KeyEvent.VK_UP] && !keys[KeyEvent.VK_ENTER]) {
 			this.isKeyDown = false;
 		}
 
+		// Cycle through buttons with arrow keys
 		if (keys[KeyEvent.VK_DOWN] && !this.isKeyDown) {
 			if (this.buttSelection + 1 > buttonEntities.size() - 1) {
 				this.buttSelection = 0;
@@ -64,7 +67,7 @@ public class Screen extends JPanel implements KeyListener {
 			}
 
 			if (keys[KeyEvent.VK_ENTER] && !this.isKeyDown && buttonEntities.get(i).getHighlight()) {
-				buttonEntities.get(i).trigger();
+				buttonEntities.get(i).trigger(p1, p2);
 				this.isKeyDown = true;
 			}
 		}

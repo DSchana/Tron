@@ -1,4 +1,6 @@
 // ScreenManager.java
+// Dilpreet Chana
+// Class ScreenManager - Store, update and control rendering of game Screens
 
 import java.util.*;
 import java.awt.*;
@@ -13,16 +15,18 @@ public class ScreenManager extends JPanel {
 		ScreenManager.active = "";
 	}
 
+	// Add screen to manage
 	public static void add(String id, String imDir) {
 		ScreenManager.screenDic.put(id, new Screen(imDir));
 	}
 
+	// Add button to screen
 	public static void addEntity(String id, Button button) {
 		ScreenManager.screenDic.get(id).addEntity(button);
 	}
 
-	public static void show(String id, Graphics g, boolean[] keys) {
-		ScreenManager.screenDic.get(id).update(keys);
+	public static void show(String id, Graphics g, boolean[] keys, Player p1, Player p2) {
+		ScreenManager.screenDic.get(id).update(keys, p1, p2);
 		ScreenManager.screenDic.get(id).render(g);
 	}
 

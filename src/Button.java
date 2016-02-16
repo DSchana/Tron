@@ -1,4 +1,6 @@
 // Button.java
+// Dilpreet Chana
+// Class Button - Model of button object
 
 import java.util.*;
 import java.awt.*;
@@ -20,7 +22,7 @@ public class Button extends JFrame {
 		this.imgHighlighted = new ImageIcon(imDir + " high.png").getImage();
 		this.action = action;
 	}
-
+	
 	public void render(Graphics g) {
 		if (this.isHighlighted) {
 			g.drawImage(this.imgHighlighted, this.x, this.y, this);
@@ -30,15 +32,24 @@ public class Button extends JFrame {
 		}
 	}
 
-	public void trigger() {
+	// Action to happen upon click
+	public void trigger(Player p1, Player p2) {
 		if (action.equals("start")) {
-			ScreenManager.activate("game");
+			ScreenManager.activate("player selection");
 		}
 		else if (action.equals("instruct")) {
 			ScreenManager.activate("instruction");
 		}
 		else if (action.equals("back")) {
 			ScreenManager.activate(ScreenManager.getPrevious());
+		}
+		else if (action.equals("single")) {
+			ScreenManager.activate("game");
+			p2.makeAI(true);
+		}
+		else if (action.equals("multi")) {
+			ScreenManager.activate("game");
+			p2.makeAI(false);
 		}
 	}
 

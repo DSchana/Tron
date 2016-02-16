@@ -1,4 +1,6 @@
 // Main.java
+// Dilpreet Chana
+// Class Tron - setup game timer and run
 
 import java.awt.*;
 import java.awt.event.*;
